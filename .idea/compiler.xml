@@ -6,14 +6,26 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="user-core" />
         <module name="api-gateway" />
-        <module name="production-warehouse" />
+        <module name="user-management" />
+        <module name="user-commands" />
+        <module name="user-command" />
+        <module name="user-oauth2" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="user-command" target="15" />
+      <module name="user-management" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
+      <module name="user-command" options="-parameters" />
+      <module name="user-commands" options="-parameters" />
+      <module name="user-core" options="-parameters" />
+      <module name="user-oauth2" options="-parameters" />
     </option>
   </component>
 </project>

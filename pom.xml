@@ -6,9 +6,12 @@
 
     <groupId>klasik.group</groupId>
     <artifactId>production-warehouse</artifactId>
+    <packaging>pom</packaging>
     <version>1.0</version>
 
     <modules>
         <module>api-gateway</module>
+        <module>user-management</module>
+        <module>user-management</module>
     </modules>
 </project>
