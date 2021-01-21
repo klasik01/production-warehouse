@@ -7,8 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="user-core" />
+        <module name="user-queries" />
         <module name="api-gateway" />
-        <module name="user-management" />
         <module name="user-commands" />
         <module name="user-command" />
         <module name="user-oauth2" />
@@ -26,6 +26,7 @@
       <module name="user-commands" options="-parameters" />
       <module name="user-core" options="-parameters" />
       <module name="user-oauth2" options="-parameters" />
+      <module name="user-queries" options="-parameters" />
     </option>
   </component>
 </project>

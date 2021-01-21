@@ -12,6 +12,5 @@
     <modules>
         <module>api-gateway</module>
         <module>user-management</module>
-        <module>user-management</module>
     </modules>
 </project>

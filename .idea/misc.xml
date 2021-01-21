@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/user-management/user-commands/pom.xml" />
         <option value="$PROJECT_DIR$/user-management/user-core/pom.xml" />
         <option value="$PROJECT_DIR$/user-management/user-oauth2/pom.xml" />
+        <option value="$PROJECT_DIR$/user-management/user-queries/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
