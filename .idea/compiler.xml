@@ -11,12 +11,12 @@
         <module name="api-gateway" />
         <module name="user-commands" />
         <module name="user-command" />
-        <module name="user-oauth2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="user-command" target="15" />
       <module name="user-management" target="1.5" />
+      <module name="user-oauth2" target="15" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

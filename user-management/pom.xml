@@ -15,7 +15,6 @@
     <modules>
         <module>user-commands</module>
         <module>user-core</module>
-        <module>user-oauth2</module>
         <module>user-queries</module>
     </modules>
 

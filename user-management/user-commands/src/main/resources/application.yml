@@ -1,0 +1,34 @@
+# spring
+server:
+  port: 8081
+
+#axon.axonserver.servers=axon-server
+
+# mongodb
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: user
+    security:
+      oauth2:
+        client:
+          registration:
+            google:
+              client-id: 412624231956-eqfk9lqrvcu7og9jr79rdsbrva0j2224.apps.googleusercontent.com
+              client-secret: lBpbhyznD76gFhuHM7DYTCXE
+        resourceserver:
+          jwt:
+            issuer-uri: lkjlkjklljk
+
+# security
+keycloak:
+  realm: Prod-Ware
+  auth-server-url: http://localhost:8080/auth
+  ssl-required: external
+  resource: springboot-microservice
+  credentials:
+    secret: e323d488-0dd9-466f-852c-b6f36ff34d35
+  use-resource-role-mappings: true
+  bearer-only: true
