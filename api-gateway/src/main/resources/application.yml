@@ -1,0 +1,11 @@
+server:
+  port: 2000
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: userCmdApi-RegisterUser
+          uri: http://localhost:8081/api/v1/registerUser
+          predicates:
+            - Path=/api/v1/registerUser
