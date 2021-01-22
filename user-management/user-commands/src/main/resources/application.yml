@@ -16,19 +16,19 @@ spring:
         client:
           registration:
             google:
-              client-id: 412624231956-eqfk9lqrvcu7og9jr79rdsbrva0j2224.apps.googleusercontent.com
-              client-secret: lBpbhyznD76gFhuHM7DYTCXE
+              client-id: production-warehouse
+              client-secret: e645f639-7eeb-4509-93d2-9e27d1a9b64b
         resourceserver:
           jwt:
-            issuer-uri: lkjlkjklljk
+            issuer-uri: https://idp.renault-tf-int.com/auth/realms/SKA-TEST
 
 # security
 keycloak:
-  realm: Prod-Ware
-  auth-server-url: http://localhost:8080/auth
+  realm: SKA-TEST
+  auth-server-url: https://idp.renault-tf-int.com/auth
   ssl-required: external
-  resource: springboot-microservice
+  resource: production-warehouse
   credentials:
-    secret: e323d488-0dd9-466f-852c-b6f36ff34d35
+    secret: e645f639-7eeb-4509-93d2-9e27d1a9b64b
   use-resource-role-mappings: true
   bearer-only: true
