@@ -11,24 +11,9 @@ spring:
       host: localhost
       port: 27017
       database: user
-    security:
-      oauth2:
-        client:
-          registration:
-            google:
-              client-id: production-warehouse
-              client-secret: e645f639-7eeb-4509-93d2-9e27d1a9b64b
-        resourceserver:
-          jwt:
-            issuer-uri: https://idp.renault-tf-int.com/auth/realms/SKA-TEST
-
-# security
-keycloak:
-  realm: SKA-TEST
-  auth-server-url: https://idp.renault-tf-int.com/auth
-  ssl-required: external
-  resource: production-warehouse
-  credentials:
-    secret: e645f639-7eeb-4509-93d2-9e27d1a9b64b
-  use-resource-role-mappings: true
-  bearer-only: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://idp.renault-tf-int.com/auth/realms/SKA-TEST
+          jwt-set-uri: https://idp.renault-tf-int.com/auth/realms/SKA-TEST/protocol/openid-connect/certs
