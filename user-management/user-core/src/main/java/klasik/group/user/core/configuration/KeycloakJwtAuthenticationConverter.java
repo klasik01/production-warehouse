@@ -6,7 +6,6 @@ package klasik.group.user.core.configuration;/**
 import com.nimbusds.jose.shaded.json.JSONArray;
 import com.nimbusds.jose.shaded.json.JSONObject;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -14,6 +13,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 class KeycloakJwtAuthenticationConverter extends JwtAuthenticationConverter {
     private static final String ROLES = "roles";
     private static final String RESOURCE_ACCESS = "resource_access";
-    private Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+    private final Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
 
     protected Collection<GrantedAuthority> extractAuthorities(Jwt theJwt) {
         if (theJwt != null) {
@@ -35,18 +35,18 @@ class KeycloakJwtAuthenticationConverter extends JwtAuthenticationConverter {
 
                 if (clientRoles != null) {
                     Collection<GrantedAuthority> clientAuthorities = clientRoles.stream()
-                            .map(aRole -> "ROLE_" + (String) aRole)
+                            .map(aRole -> "ROLE_" + aRole)
                             .map(SimpleGrantedAuthority::new)
                             .collect(Collectors.toList());
 
-                    clientAuthorities.addAll(jwtGrantedAuthoritiesConverter.convert(theJwt));
+                    clientAuthorities.addAll(Objects.requireNonNull(jwtGrantedAuthoritiesConverter.convert(theJwt)));
 
                     return clientAuthorities;
                 }
             }
 
         }
-        return jwtGrantedAuthoritiesConverter.convert(theJwt);
+        return jwtGrantedAuthoritiesConverter.convert(Objects.requireNonNull(theJwt));
     }
 
 }

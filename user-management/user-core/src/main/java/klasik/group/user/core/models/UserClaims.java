@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 
@@ -24,8 +26,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Document(collection = "users")
 public class UserClaims {
 
+    @Id
     @NotEmpty(message = "username is mandatory")
     private String uid;
     @NotEmpty(message = "name is mandatory")
@@ -37,5 +41,4 @@ public class UserClaims {
     @NotEmpty(message = "email is mandatory")
     private String email;
     private Collection<GrantedAuthority> roles;
-
 }

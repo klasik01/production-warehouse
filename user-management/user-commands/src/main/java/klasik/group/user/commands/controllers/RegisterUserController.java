@@ -28,7 +28,6 @@ public class RegisterUserController {
                 .firstname(jwt.getClaim("given_name"))
                 .lastname(jwt.getClaim("family_name"))
                 .email(jwt.getClaim("email"))
-                .roles(jwt.getClaim("resource_access.production-warehouse.roles"))
                 .build();
 
         JSONObject keycloakClientAuthorities = ((JSONObject) jwt.getClaimAsMap("resource_access").get("production-warehouse"));
