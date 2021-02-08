@@ -10,7 +10,10 @@
     <version>1.0</version>
 
     <modules>
-        <module>api-gateway</module>
-        <module>user-management</module>
+        <module>backend/api-gateway</module>
+        <module>backend/commands-api</module>
+        <module>backend/queries-api</module>
+        <module>backend/core</module>
     </modules>
+
 </project>

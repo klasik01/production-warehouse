@@ -2,26 +2,42 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="user-core" />
-        <module name="user-queries" />
         <module name="api-gateway" />
-        <module name="user-commands" />
+        <module name="queries-api" />
+        <module name="core" />
         <module name="user-command" />
+        <module name="commands-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="production-commands" target="1.8" />
+      <module name="production-core" target="15" />
+      <module name="production-management" target="15" />
+      <module name="production-queries" target="15" />
       <module name="user-command" target="15" />
+      <module name="user-commands" target="15" />
+      <module name="user-core" target="15" />
       <module name="user-management" target="1.5" />
       <module name="user-oauth2" target="15" />
+      <module name="user-queries" target="15" />
+      <module name="wrapper" target="1.5" />
+      <module name="wrapper (1)" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
+      <module name="commands-api" options="-parameters" />
+      <module name="core" options="-parameters" />
+      <module name="production-commands" options="-parameters" />
+      <module name="production-core" options="-parameters" />
+      <module name="production-queries" options="-parameters" />
+      <module name="queries-api" options="-parameters" />
       <module name="user-command" options="-parameters" />
       <module name="user-commands" options="-parameters" />
       <module name="user-core" options="-parameters" />

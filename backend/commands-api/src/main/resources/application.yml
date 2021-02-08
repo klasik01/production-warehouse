@@ -1,0 +1,24 @@
+# spring
+server:
+  port: 8081
+
+#axon.axonserver.servers=axon-server
+
+# mongodb
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: prod-warehouse
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://idp.renault-tf-int.com/auth/realms/SKA-TEST
+          jwt-set-uri: https://idp.renault-tf-int.com/auth/realms/SKA-TEST/protocol/openid-connect/certs
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui-custom.html
+    operationsSorter: method

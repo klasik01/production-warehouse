@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="JavaScriptSettings">
-    <option name="languageLevel" value="JSX" />
+    <option name="languageLevel" value="ES6" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -12,15 +12,24 @@
         <option value="$PROJECT_DIR$/user-management/user-commands/pom.xml" />
         <option value="$PROJECT_DIR$/user-management/user-core/pom.xml" />
         <option value="$PROJECT_DIR$/user-management/user-queries/pom.xml" />
+        <option value="$PROJECT_DIR$/production-commands/pom.xml" />
+        <option value="$PROJECT_DIR$/production-core/pom.xml" />
+        <option value="$PROJECT_DIR$/production-queries/pom.xml" />
+        <option value="$PROJECT_DIR$/commands-api/pom.xml" />
+        <option value="$PROJECT_DIR$/queries-api/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/production-management/pom.xml" />
+        <option value="$PROJECT_DIR$/production-management/production-commands/pom.xml" />
+        <option value="$PROJECT_DIR$/production-management/production-core/pom.xml" />
+        <option value="$PROJECT_DIR$/production-management/production-queries/pom.xml" />
         <option value="$PROJECT_DIR$/user-management/pom.xml" />
       </set>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_14" default="false" project-jdk-name="15" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_14" project-jdk-name="15" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
