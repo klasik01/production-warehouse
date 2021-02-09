@@ -2,8 +2,11 @@ package klasik.group.commands.api.production.controllers;
 
 import klasik.group.commands.api.production.commands.CreateProjectCommand;
 import klasik.group.core.dto.BaseResponse;
+import klasik.group.core.production.models.BaseInformation;
 import klasik.group.core.production.models.MetaInfo;
+import klasik.group.core.production.models.NumberAttribute;
 import klasik.group.core.production.models.Project;
+import klasik.group.core.production.models.StringAttribute;
 import org.axonframework.commandhandling.CommandExecutionException;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.UUID;
 
 @RestController
@@ -42,8 +46,14 @@ public class CreateProjectController {
                     .uuid(uuid)
                     .project(Project.builder()
                             .uuid(uuid)
-                            .name("New project")
-                            .icon("hammer")
+                            .baseInformation(BaseInformation.builder()
+                                    .name("New project")
+                                    .description("Description of new project")
+                                    .build())
+                            .stringAttributes(Arrays.asList(StringAttribute.builder().uuid(UUID.randomUUID()).name("Attr1").value("value").build()))
+                            .numAttributes(Arrays.asList(NumberAttribute.builder().uuid(UUID.randomUUID()).name("Attr1").value(8).build()))
+                            .users(Arrays.asList(user))
+                            .administrators(Arrays.asList(user))
                             .build()
                     )
                     .meta(MetaInfo.builder()
@@ -53,7 +63,7 @@ public class CreateProjectController {
                     .build();
             commandGateway.sendAndWait(command);
 
-            return new ResponseEntity<>(new BaseResponse("Project successfully registered!"), HttpStatus.CREATED);
+            return new ResponseEntity<>(new BaseResponse("Project successfully created!"), HttpStatus.CREATED);
 
         } catch (CommandExecutionException e) {
             System.out.println(e.toString());

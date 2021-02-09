@@ -1,12 +1,10 @@
 package klasik.group.commands.api.user.controllers;
 
-import klasik.group.commands.api.user.commands.RemoveUserCommand;
-import klasik.group.commands.api.user.dto.RegisterUserResponse;
+import klasik.group.commands.api.user.commands.UpdateUserCommand;
 import klasik.group.core.dto.BaseResponse;
 import klasik.group.core.user.models.MetaInfo;
 import klasik.group.core.user.models.User;
 import lombok.extern.slf4j.Slf4j;
-import org.axonframework.commandhandling.CommandExecutionException;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,36 +13,45 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/api/v1/removeUser")
+@RequestMapping(path = "/api/v1/updateUser")
 @Slf4j
-public class RemoveUserController {
+public class UpdateUserController {
     private final CommandGateway commandGateway;
 
     @Autowired
-    public RemoveUserController(CommandGateway commandGateway) {
+    public UpdateUserController(CommandGateway commandGateway) {
         this.commandGateway = commandGateway;
     }
 
-    @DeleteMapping(path = "/{id}")
+    @PutMapping(path = "/{id}")
     @PreAuthorize("hasRole('admin')")
-    public ResponseEntity<BaseResponse> removeUser(@AuthenticationPrincipal Jwt jwt, @PathVariable(value = "id") String id) {
+    public ResponseEntity<BaseResponse> updateUser(@AuthenticationPrincipal Jwt jwt,
+            @PathVariable(value = "id") String id) {
         try {
             User user = User.builder()
                     .id(jwt.getClaim("preferred_username"))
                     .name(jwt.getClaim("name"))
                     .build();
 
-            RemoveUserCommand command = RemoveUserCommand.builder()
+            UpdateUserCommand command = UpdateUserCommand.builder()
                     .id(id)
+                    .user(User.builder()
+                            .firstname("František")
+                            .lastname("Koubek")
+                            .email("email@mail.com")
+                            .build()
+                    )
                     .meta(MetaInfo.builder()
                             .user(User.builder()
                                     .id(user.getId())
@@ -55,19 +62,14 @@ public class RemoveUserController {
                             .build())
                     .build();
 
-            log.info("RemoveUserCommand " + command.toString());
+            log.info("UpdateUserCommand " + command.toString());
 
+            command.setId(id);
             commandGateway.sendAndWait(command);
 
-            return new ResponseEntity<>(new BaseResponse("User successfully removed!"), HttpStatus.OK);
-        } catch (CommandExecutionException e) {
-            var safeErrorMessage = "User with username " + id + " does not exist";
-            System.out.println(e.toString());
-
-            return new ResponseEntity<>(new RegisterUserResponse(id, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-
+            return new ResponseEntity<>(new BaseResponse("User successfully updated!"), HttpStatus.OK);
         } catch (Exception e) {
-            var safeErrorMessage = "Error while processing remove user request for id - " + id;
+            var safeErrorMessage = "Error while processing update user request for id - " + id;
             System.out.println(e.toString());
 
             return new ResponseEntity<>(new BaseResponse(safeErrorMessage), HttpStatus.INTERNAL_SERVER_ERROR);

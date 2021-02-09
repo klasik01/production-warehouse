@@ -5,6 +5,7 @@ import klasik.group.commands.api.user.dto.RegisterUserResponse;
 import klasik.group.core.dto.BaseResponse;
 import klasik.group.core.user.models.MetaInfo;
 import klasik.group.core.user.models.User;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandExecutionException;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/v1/registerUser")
+@Slf4j
 public class RegisterUserController {
     private final CommandGateway commandGateway;
 
@@ -51,8 +53,8 @@ public class RegisterUserController {
     @GetMapping
     @PreAuthorize("hasRole('user')")
     public ResponseEntity<RegisterUserResponse> registerUser(@AuthenticationPrincipal Jwt jwt, @RequestHeader MultiValueMap<String, String> headers) {
-        //String id = jwt.getClaim(("preferred_username"));
-        String id = UUID.randomUUID().toString();
+        String id = jwt.getClaim(("preferred_username"));
+        //String id = UUID.randomUUID().toString();
         headers.forEach((k, v) -> System.out.println(k+" : "+v));
         try {
             User user = User.builder()
@@ -77,6 +79,7 @@ public class RegisterUserController {
                             .build())
                     .build();
 
+            log.info("RegisterUserCommand " + command.toString());
             commandGateway.sendAndWait(command);
 
             return new ResponseEntity<>(new RegisterUserResponse(id, "User successfully registered!"), HttpStatus.CREATED);

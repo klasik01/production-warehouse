@@ -1,22 +1,17 @@
 version: '3'
 
 services:
-#  axon-server:
-#    image: axoniq/axonserver:latest
-#    container_name: axon-server
-#    ports:
-#      - 8024:8024
-#      - 8124:8124
-#      - 8224:8224
-#    volumes:
-#      - ./.docker/axon/data:/data
-#      - ./.docker/axon/events:/eventdata
-#      - ./.docker/axon/config:/config:ro
+  axon-server:
+    image: axoniq/axonserver:latest
+    container_name: axon-server
+    ports:
+      - 8024:8024
+      - 8124:8124
 
   mongoDb:
     image: mongo:latest
     container_name: mongo-container_name
-    volumes:
-      - ./.docker/mongodb_data_container:/data/db
+#    volumes:
+#      - ./.docker/mongodb_data_container:/data/db
     ports:
       - 27017:27017

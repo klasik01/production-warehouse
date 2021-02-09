@@ -2,6 +2,7 @@ package klasik.group.queries.api.user.handlers;
 
 import klasik.group.core.user.events.UserRegisteredEvent;
 import klasik.group.core.user.events.UserRemovedEvent;
+import klasik.group.core.user.events.UserUpdatedEvent;
 
 /**
  * @author pc00275
@@ -10,6 +11,7 @@ import klasik.group.core.user.events.UserRemovedEvent;
 public interface UserEventHandler {
 
     void on(UserRegisteredEvent event);
+    void on(UserUpdatedEvent event);
     void on(UserRemovedEvent event);
 
 }

@@ -1,27 +1,23 @@
-package klasik.group.core.user.events;/**
- * @author pc00275
- * @since 06.02.2021
- */
+package klasik.group.commands.api.user.commands;
 
 import klasik.group.core.user.models.MetaInfo;
 import klasik.group.core.user.models.User;
 import lombok.Builder;
 import lombok.Data;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
-import org.axonframework.serialization.Revision;
 
-/**
- * UserRegisteredEvent
- *
- * @author pc00275
- * @since 06.02.2021
- */
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 @Data
 @Builder
-@Revision("1")
-public class UserRegisteredEvent {
+public class UpdateUserCommand {
     @TargetAggregateIdentifier
     private String id;
+    @NotNull(message = "no user details were supplied")
+    @Valid
     private User user;
+    @NotNull(message = "no meta info filled")
+    @Valid
     private MetaInfo meta;
 }

@@ -2,6 +2,8 @@ package klasik.group.core.configuration;
 
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
+import org.axonframework.config.EventProcessingModule;
+import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.tokenstore.TokenStore;
 import org.axonframework.eventsourcing.eventstore.EmbeddedEventStore;
 import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
@@ -14,11 +16,17 @@ import org.axonframework.extensions.mongo.eventsourcing.eventstore.MongoSettings
 import org.axonframework.extensions.mongo.eventsourcing.tokenstore.MongoTokenStore;
 import org.axonframework.serialization.Serializer;
 import org.axonframework.spring.config.AxonConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
 
+import javax.annotation.PostConstruct;
 import java.util.Collections;
+import java.util.Optional;
 
 @Configuration
 public class AxonConfig {
@@ -30,6 +38,9 @@ public class AxonConfig {
 
     @Value("${spring.data.mongodb.database:prod-warehouse}")
     private String mongoDatabase;
+
+    @Autowired
+    private EventProcessingModule eventProcessingModule;
 
     @Bean
     public MongoClient mongo() {
@@ -84,5 +95,35 @@ public class AxonConfig {
                 .storageEngine(storageEngine)
                 .messageMonitor(configuration.messageMonitor(EventStore.class, "eventStore"))
                 .build();
+    }
+
+    @PostConstruct
+    public void startTrackingProjections() throws ClassNotFoundException {
+        ClassPathScanningCandidateComponentProvider scanner =
+                new ClassPathScanningCandidateComponentProvider(false);
+        scanner.addIncludeFilter(new AnnotationTypeFilter(RebuildableProjection.class));
+
+        for (BeanDefinition bd : scanner.findCandidateComponents("klasik.group")) {
+            Class<?> aClass = Class.forName(bd.getBeanClassName());
+            RebuildableProjection rebuildableProjection = aClass.getAnnotation(RebuildableProjection.class);
+
+            if (rebuildableProjection.rebuild()) {
+                registerRebuildableProjection(aClass, rebuildableProjection);
+            }
+        }
+    }
+
+    private void registerRebuildableProjection(Class<?> aClass, RebuildableProjection rebuildableProjection) {
+        ProcessingGroup processingGroup = aClass.getAnnotation(ProcessingGroup.class);
+
+        String name = Optional.ofNullable(processingGroup).map(ProcessingGroup::value)
+                .orElse(aClass.getName() + "/" + rebuildableProjection.version());
+
+        //		eventProcessingModule.assignHandlersMatching(
+        //			name,
+        //			Integer.MAX_VALUE,
+        //			(eventHandler) -> aClass.isAssignableFrom(eventHandler.getClass()));
+        //
+        eventProcessingModule.registerTrackingEventProcessor(name);
     }
 }

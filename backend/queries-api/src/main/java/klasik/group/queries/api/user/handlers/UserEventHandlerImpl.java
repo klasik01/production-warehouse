@@ -2,6 +2,7 @@ package klasik.group.queries.api.user.handlers;
 
 import klasik.group.core.user.events.UserRegisteredEvent;
 import klasik.group.core.user.events.UserRemovedEvent;
+import klasik.group.core.user.events.UserUpdatedEvent;
 import klasik.group.queries.api.user.repositories.UserRepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryUpdateEmitter;
@@ -28,6 +29,12 @@ public class UserEventHandlerImpl implements UserEventHandler {
     @Override
     public void on(UserRegisteredEvent event) {
         System.out.println(event.getMeta().toString());
+        userRepository.save(event.getUser());
+    }
+
+    @EventHandler
+    @Override
+    public void on(UserUpdatedEvent event) {
         userRepository.save(event.getUser());
     }
 
